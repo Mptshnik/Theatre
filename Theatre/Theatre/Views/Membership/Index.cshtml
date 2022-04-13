@@ -1,0 +1,88 @@
+﻿@model MembershipIndex
+
+@{
+    ViewData["Title"] = "Абонементы";
+}
+
+<div class="container">
+    <div id="index">
+        <h1 class="text-center" style="margin-bottom:8px;">Абонементы</h1>
+        <div class="row">
+            <div class="col-sm-9">
+                <table class="table text-center">
+                    <thead>
+                        <tr>
+                            <th>
+                                Стоимость абонемента (₽)
+                            </th>
+                            <th>
+                                Жанр
+                            </th>
+                            <th>
+                                Автор
+                            </th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Memberships)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Price)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Genre)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Author.FullName)
+                                </td>
+                                <td>
+                                    <a onclick="showInPopup('@Url.Action("Edit", "Membership", new { id = item.ID}, Context.Request.Scheme)',
+                            'Изменение абонемента')" class="btn btn-success text-white">Изменить</a>
+                                    <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger text-white">Удалить</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="col-sm-3">
+                <form asp-action="Create" class="col-md-12">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="@Model.Membership.Price" class="control-label"></label>
+                        <input asp-for="@Model.Membership.Price" class="form-control" />
+                        <span asp-validation-for="@Model.Membership.Price" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.Membership.Genre" class="control-label"></label>
+                        <select class="form-control" asp-for="@Model.Membership.Genre">
+                            <option selected value="@null">_</option>
+                            <option value="Комедия">Комедия</option>
+                            <option value="Водевиль">Водевиль</option>
+                            <option value="Мелодрама">Мелодрама</option>
+                            <option value="Монодрама">Монодрама</option>
+                            <option value="Мюзикл">Мюзикл</option>
+                            <option value="Пародия">Пародия</option>
+                            <option value="Трагикомедия">Трагикомедия</option>
+                            <option value="Драма">Драма</option>
+                        </select>
+                        <span asp-validation-for="@Model.Membership.Genre" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.Membership.AuthorID" class="control-label"></label>
+                        <select asp-for="@Model.Membership.AuthorID" class="form-control" asp-items="ViewBag.AuthorID">
+                            <option selected value="@null">_</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Добавить" class="btn btn-primary btn-block" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

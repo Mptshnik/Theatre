@@ -1,0 +1,60 @@
+﻿@{ 
+    Layout = null;
+}
+<link rel="stylesheet" href="~/css/menu.css" runat="server"/>
+<div class='dashboard'>
+    <div class="dashboard-nav">
+        <nav class="dashboard-nav-list">
+            <h1 style="text-align:center; color:white;">Театр</h1>
+            <br />
+            <form>
+                <a asp-controller="Employee" asp-action="Index" class="dashboard-nav-item" 
+                   asp-route-role="@((int)Roles.Admin)">
+                    Сотрудники
+                </a>
+                <a asp-controller="Post" asp-action="Index" class="dashboard-nav-item" 
+                   asp-route-role="@((int)Roles.Admin)">
+                    Должности
+                </a>
+                <a asp-controller="Performance" asp-action="Index" 
+                   asp-route-role="@((int)Roles.Admin)"
+                   class="dashboard-nav-item">
+                    Спектакли
+                </a>
+                <a asp-controller="Ticket" asp-action="Index" class="dashboard-nav-item" 
+                   asp-route-role="@((int)Roles.Admin)">
+                    Билеты
+                </a>
+                <a asp-controller="Membership" asp-action="Index" class="dashboard-nav-item" 
+                   asp-route-role="@((int)Roles.Admin)">
+                    Абонементы
+                </a>
+                <a asp-controller="Author" asp-action="Index" class="dashboard-nav-item" 
+                   asp-route-role="@((int)Roles.Admin)">
+                    Авторы
+                </a>
+                <a asp-controller="Stage" asp-action="Index" class="dashboard-nav-item" 
+                   asp-route-role="@((int)Roles.Admin)">
+                    Постановки
+                </a>
+            </form>
+            <br />
+
+            <a asp-action="Index" class="dashboard-nav-item"> Выйти </a>
+        </nav>
+    </div>
+    <div class='dashboard-app'>
+        <div class='dashboard-content'>
+            <div class='container'>
+                <div class='card'>
+                    <div class='card-header'>
+                        <h1>Добро пожаловать</h1>
+                    </div>
+                    <div class='card-body'>
+                        <p>Вы зашли в систему в качестве администратора</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

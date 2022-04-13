@@ -1,0 +1,123 @@
+﻿@model PerformanceIndex
+@{
+    ViewData["Title"] = "Спектакли";
+}
+
+<div class="container-fluid">
+    <div id="index">
+        <h1 class="text-center" style="margin-bottom:8px;">Спектакли</h1>
+        <div class="row">
+            <div class="col-sm-9">
+                <table class="table text-center">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Performance.Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Performance.PremiereDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Performance.BeginningTime)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Performance.PerformanceType)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Performance.Genre)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Performance.Author)
+                            </th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Performances)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PremiereDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BeginningTime)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PerformanceType)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Genre)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Author.FullName)
+                                </td>
+                                <td>
+                                    <a onclick="showInPopup('@Url.Action("Edit", "Performance", new { id = item.ID}, Context.Request.Scheme)',
+                            'Изменение сотрудника')" class="btn btn-success text-white">Изменить</a>
+                                    <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger text-white">Удалить</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="col-sm-3">
+                <div class="col-md-12">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Performance.Name" class="control-label"></label>
+                            <input asp-for="@Model.Performance.Name" class="form-control" />
+                            <span asp-validation-for="@Model.Performance.Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Performance.PremiereDate" class="control-label"></label>
+                            <input asp-for="@Model.Performance.PremiereDate" class="form-control" />
+                            <span asp-validation-for="@Model.Performance.PremiereDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Performance.BeginningTime" class="control-label"></label>
+                            <input asp-for="@Model.Performance.BeginningTime" class="form-control" />
+                            <span asp-validation-for="@Model.Performance.BeginningTime" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Performance.PerformanceType" class="control-label"></label>
+                            <select class="form-control" asp-for="@Model.Performance.PerformanceType">
+                                <option selected value="Детский">Детский</option>
+                                <option value="Молодежный">Молодежный</option>
+                                <option value="Подростковый">Подростковый</option>
+                                <option value="Взрослый">Взрослый</option>
+                            </select>
+                            <span asp-validation-for="@Model.Performance.PerformanceType" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Performance.Genre" class="control-label"></label>
+                            <select class="form-control" asp-for="@Model.Performance.Genre">
+                                <option selected value="Драма">Драма</option>
+                                <option value="Комедия">Комедия</option>
+                                <option value="Водевиль">Водевиль</option>
+                                <option value="Мелодрама">Мелодрама</option>
+                                <option value="Монодрама">Монодрама</option>
+                                <option value="Мюзикл">Мюзикл</option>
+                                <option value="Пародия">Пародия</option>
+                                <option value="Трагикомедия">Трагикомедия</option>
+                            </select>
+                            <span asp-validation-for="@Model.Performance.Genre" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Performance.AuthorID" class="control-label"></label>
+                            <select asp-for="@Model.Performance.AuthorID" class="form-control" asp-items="ViewBag.AuthorID"></select>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Добавить" class="btn btn-primary btn-block" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,125 @@
+﻿@model Employee
+
+@{
+    ViewData["Title"] = "Изменение сотрудника";
+    Layout = null;
+}
+
+<div class="container">
+    <div style="margin: 0 auto;">
+        <form asp-action="Edit" asp-route-id="ID" onsubmit="return jQueryAjaxPost(this);">
+            <div class="form-row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="ID" />
+
+                <div class="form-group col-md-4">
+                    <label asp-for="FirstName" class="control-label"></label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="LastName" class="control-label"></label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="MiddleName" class="control-label"></label>
+                    <input asp-for="MiddleName" class="form-control" />
+                    <span asp-validation-for="MiddleName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="Login" class="control-label"></label>
+                    <input asp-for="Login" class="form-control" />
+                    <span asp-validation-for="Login" class="text-danger"></span>
+                    <span class="text-danger">@ViewData["LoginExists"]</span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label asp-for="Role" class="control-label"></label>
+                    <select asp-for="Role" class="form-control">
+                        <option value="4">_</option>
+                        <option value="@((int)Roles.Admin)">Администратор</option>
+                        <option value="@((int)Roles.Cashier)">Кассир</option>
+                        <option value="@((int)Roles.PerformanceDirector)">Режиссер</option>
+                        <option value="@((int)Roles.TheatreDirector)">Директор</option>
+                    </select>
+                    <span asp-validation-for="Role" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="PostID" class="control-label"></label>
+                    <select asp-for="PostID" class="form-control" asp-items="ViewBag.PostID"></select>
+                    <span asp-validation-for="PostID" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="Gender" class="control-label"></label>
+                    <select asp-for="Gender" class="form-control">
+                        <option selected>_</option>
+                        <option value="Мужской">Мужской</option>
+                        <option value="Женский">Женский</option>
+                    </select>
+                    <span asp-validation-for="Gender" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="Age" class="control-label"></label>
+                    <input asp-for="Age" class="form-control" />
+                    <span asp-validation-for="Age" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Height" class="control-label"></label>
+                    <input asp-for="Height" class="form-control" />
+                    <span asp-validation-for="Height" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rewards" class="control-label"></label>
+                <textarea asp-for="Rewards" class="form-control"></textarea>
+                <span asp-validation-for="Rewards" class="text-danger"></span>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="@Model.VoiceType" class="control-label"></label>
+                    <select asp-for="@Model.VoiceType" class="form-control">
+                        <option selected>_</option>
+                        <option value="Бас">Бас</option>
+                        <option value="Баритон">Баритон</option>
+                        <option value="Тенор">Тенор</option>
+                        <option value="Альт">Альт</option>
+                        <option value="Сопрано">Сопрано</option>
+                        <option value="Меццо-сопрано">Меццо-сопрано</option>
+                    </select>
+                    <span asp-validation-for="@Model.VoiceType" class="text-danger"></span>
+                </div>
+                <div>
+                    <input type="hidden" asp-for="@Model.FullName"/>
+                </div>
+                <div class="form-group col-md-3">
+                    <input type="checkbox" asp-for="IsOnTour" /> @Html.DisplayNameFor(model => model.IsOnTour)
+                </div>
+                <div class="form-group col-md-3">
+                    <input type="checkbox" asp-for="IsStudent" /> @Html.DisplayNameFor(model => model.IsStudent)
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Сохранить" class="btn btn-primary col-md-12 btn-block" />
+            </div>
+           
+            
+        </form>
+    </div>
+
+   
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
+
+</div>

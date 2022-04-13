@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Авторизация";
+}
+
+
+
+<div style="width:15%; margin:0 auto; margin-top:150px">
+    <form method="post">
+        <div class="form-outline mb-4">
+            <input type="text" placeholder="Логин" name="login" class="form-control" />
+            <span class="text-danger">@ViewData["InvalidLogin"]</span>
+        </div>
+
+        <div class="form-outline mb-4">
+            <input type="password" placeholder="Пароль" name="password" class="form-control" />
+            <span class="text-danger">@ViewData["InvalidPassword"]</span>
+        </div>
+
+       
+        <button type="submit" asp-action="Authorize" class="btn btn-primary btn-block">Войти</button>
+    </form>
+   
+</div>

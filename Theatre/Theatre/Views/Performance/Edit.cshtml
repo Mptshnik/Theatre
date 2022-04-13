@@ -1,0 +1,67 @@
+﻿@model Theatre.Models.Performance
+
+@{
+    ViewData["Title"] = "Изменение спектакля";
+    Layout = null;
+}
+
+<div class="container">
+    <div>
+        <form asp-action="Edit" asp-route-id="ID" onsubmit="return jQueryAjaxPost(this);">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PremiereDate" class="control-label"></label>
+                <input asp-for="PremiereDate" class="form-control" />
+                <span asp-validation-for="PremiereDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BeginningTime" class="control-label"></label>
+                <input asp-for="BeginningTime" class="form-control" />
+                <span asp-validation-for="BeginningTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PerformanceType" class="control-label"></label>
+                <select class="form-control" asp-for="PerformanceType">
+                    <option selected value="Детский">Детский</option>
+                    <option value="Молодежный">Молодежный</option>
+                    <option value="Подростковый">Подростковый</option>
+                    <option value="Взрослый">Взрослый</option>
+                </select>
+                <span asp-validation-for="PerformanceType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Genre" class="control-label"></label>
+                <select class="form-control" asp-for="Genre">
+                    <option selected value="Драма">Драма</option>
+                    <option value="Комедия">Комедия</option>
+                    <option value="Водевиль">Водевиль</option>
+                    <option value="Мелодрама">Мелодрама</option>
+                    <option value="Монодрама">Монодрама</option>
+                    <option value="Мюзикл">Мюзикл</option>
+                    <option value="Пародия">Пародия</option>
+                    <option value="Трагикомедия">Трагикомедия</option>
+                </select>
+                <span asp-validation-for="Genre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AuthorID" class="control-label"></label>
+                <select asp-for="AuthorID" class="form-control" asp-items="ViewBag.AuthorID"></select>
+                <span asp-validation-for="AuthorID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Сохранить" class="btn btn-primary btn-block" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

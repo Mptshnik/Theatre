@@ -1,0 +1,62 @@
+﻿@model PostIndex
+
+@{
+    ViewData["Title"] = "Должности";
+}
+
+<div class="container-fluid" id="index">
+    <h1 class="text-center" style="margin-bottom: 8px;">Должности</h1>
+    <div>
+        <div class="row">
+            <div class="col-sm-9">
+                <table class="table text-center">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Post.Name)
+                            </th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Posts)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    <a onclick="showInPopup('@Url.Action("Edit", "Post", new { id = item.ID}, Context.Request.Scheme)',
+                            'Изменение должности')" class="btn btn-success text-white">Изменить</a>
+                                    <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger">Удалить</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="col-sm-3">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group col-md-12">
+                        <label asp-for="@Model.Post.Name" class="control-label"></label>
+                        <input asp-for="@Model.Post.Name" class="form-control" />
+                        <span asp-validation-for="@Model.Post.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <input type="submit" value="Create" class="btn btn-primary btn-block" />
+                    </div>
+                </form>
+            </div>
+
+            @section Scripts {
+                @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+            }
+
+
+        </div>
+    </div>
+</div>
+
+

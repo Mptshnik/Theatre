@@ -1,0 +1,73 @@
+﻿@model StageIndex
+@{
+    ViewData["Title"] = "Постановка спектаклей";
+}
+
+<div class="container-fluid">
+    <div id="index">
+        <h1 class="text-center" style="margin-bottom:8px;">Постановка спектаклей</h1>
+        <div class="row">
+            <div class="col-sm-8">
+                <table class="table text-center">
+                    <thead>
+                        <tr>
+                            <th>
+                                ФИО сотрудника
+                            </th>
+                            <th>
+                                Должность сотрудника
+                            </th>
+                            <th>
+                                Спектакль
+                            </th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Stages)
+                        {
+                        <tr>
+                            <td>
+                                @item.Employee.FullName
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Employee.Post.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Performance.Name)
+                            </td>
+                            <td>
+                                <a onclick="showInPopup('@Url.Action("Edit", "Stage", new { id = item.ID}, Context.Request.Scheme)',
+                            'Изменение постановки')" class="btn btn-success text-white">Изменить</a>
+                                <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger text-white">Удалить</a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="col-sm-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="@Model.Stage.EmployeeID" class="control-label"></label>
+                        <select asp-for="@Model.Stage.EmployeeID" class="form-control" asp-items="ViewBag.EmployeeID">
+                            <option selected value="@null"></option>
+                        </select>
+                        <span asp-validation-for="@Model.Stage.EmployeeID" class="text-danger"></span>
+                        <span class="text-danger">@ViewData["EmployeeInPerformance"]</span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.Stage.PerformanceID" class="control-label"></label>
+                        <select asp-for="@Model.Stage.PerformanceID" class="form-control" asp-items="ViewBag.PerformanceID"></select>
+                        <span asp-validation-for="@Model.Stage.PerformanceID" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Добавить" class="btn btn-primary btn-block" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

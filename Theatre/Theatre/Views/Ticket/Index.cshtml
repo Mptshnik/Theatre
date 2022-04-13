@@ -1,0 +1,125 @@
+﻿@model TicketIndex
+
+@{
+    ViewData["Title"] = "Билеты";
+}
+<style>
+    table.dataTable thead th {
+        border-bottom: none;
+        border-top:none;
+    }
+    table.dataTable tbody td {
+        border-top: none;
+        border-bottom: none;
+    }
+    table.dataTable tfoot th {
+        border-top: none;
+        border-bottom: none;
+    }
+</style>
+<div class="container">
+    <div id="index">
+        <h1 class="text-center" style="margin-bottom: 8px;">Билеты</h1>
+        <div class="row">
+            <div class="col-sm-8">
+                <table class="table text-center" id="exportable">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Ticket.Price)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Ticket.SeatNumber)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Ticket.Performance)
+                            </th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Tickets)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Price)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SeatNumber)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Performance.Name)
+                                    </td>
+                                    <td>
+                                        <a onclick="showInPopup('@Url.Action("Edit", "Ticket", new { id = item.ID}, Context.Request.Scheme)',
+                                'Изменение билета')" class="btn btn-success text-white">Изменить</a>
+                                        <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger text-white">Удалить</a>
+                                    </td>
+                                </tr>
+                            }
+                    </tbody>
+                    <tfoot></tfoot>
+                </table>
+
+            </div>
+            <div class="col-sm-4">
+                <div class="col-md-12">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Ticket.Price" class="control-label"></label>
+                            <input asp-for="@Model.Ticket.Price" class="form-control" />
+                            <span asp-validation-for="@Model.Ticket.Price" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Ticket.SeatNumber" class="control-label"></label>
+                            <input asp-for="@Model.Ticket.SeatNumber" class="form-control" />
+                            <span asp-validation-for="@Model.Ticket.SeatNumber" class="text-danger"></span>
+                            <span class="text-danger">@ViewData["SeatExists"]</span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Ticket.PerformanceID" class="control-label"></label>
+                            <select asp-for="@Model.Ticket.PerformanceID" class="form-control" asp-items="ViewBag.PerformanceID"></select>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Добавить" class="btn btn-primary btn-block" />
+                        </div>
+                        <div class="form-group">
+                            <a onclick="exportToPdf();" class="btn btn-primary btn-block  text-white">Эскпорт</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#exportable").DataTable({
+                "paging": false,
+                "language": {
+                    "search": "Фильтр",
+                    "zeroRecords": "Совпадений не найдено",
+                    "infoEmpty": "",
+                    "info": "",
+                    "emptyTable": "Данные отсутствуют"
+                }
+            });
+        });
+
+        function exportToPdf() {
+            var element = document.getElementById('exportable');
+
+            html2pdf().from(element).set({
+                margin: [30, 10, 5, 10],
+                pagebreak: { avoid: 'tr' },
+                jsPDF: { orientation: 'landscape', unit: 'pt', format: 'letter', compressPDF: true }
+            }).save()
+        };
+    </script>
+}

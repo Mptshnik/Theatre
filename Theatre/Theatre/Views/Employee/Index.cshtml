@@ -1,0 +1,201 @@
+﻿@model EmployeeIndex
+
+@{
+    ViewData["Title"] = "Сотрудники";
+}
+
+<div class="container-fluid">
+    <div id="index">
+        <h1 class="text-center" style="margin-bottom:8px;">Сотрудники</h1>
+        <div class="row">
+            <div class="col-sm-9">
+                <table class="table text-center">
+                    <thead>
+                        <tr>
+                            <th>
+                                ФИО
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Employee.Login)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Employee.Password)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Employee.Post)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Employee.Gender)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Employee.Age)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Employee.Height)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Employee.Rewards)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Employee.IsOnTour)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Employee.IsStudent)
+                            </th>
+                            <th>Изменение</th>
+                            <th>Удаление</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Employees)
+                        {
+                            <tr>
+                                <td>
+                                    @item.LastName @item.FirstName @item.MiddleName
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Login)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Password)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Post.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Gender)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Age)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Height)
+                                </td>
+                                <td class="overflow-auto">
+                                    @Html.DisplayFor(modelItem => item.Rewards)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IsOnTour)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IsStudent)
+                                </td>
+                                <td>
+                                    <a onclick="showInPopup('@Url.Action("Edit", "Employee", new { id = item.ID}, Context.Request.Scheme)',
+                            'Изменение сотрудника')" class="btn btn-success text-white">Изменить</a>
+                                </td>
+                                <td>
+                                    <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger">Удалить</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="col-sm-3">
+                <form asp-action="Create" class="form-row">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group col-sm-4">
+                        <label asp-for="@Model.Employee.FirstName" class="control-label"></label>
+                        <input asp-for="@Model.Employee.FirstName" class="form-control" />
+                        <span asp-validation-for="@Model.Employee.FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <label asp-for="@Model.Employee.LastName" class="control-label"></label>
+                        <input asp-for="@Model.Employee.LastName" class="form-control" />
+                        <span asp-validation-for="@Model.Employee.LastName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <label asp-for="@Model.Employee.MiddleName" class="control-label"></label>
+                        <input asp-for="@Model.Employee.MiddleName" class="form-control" />
+                        <span asp-validation-for="@Model.Employee.MiddleName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="@Model.Employee.Login" class="control-label"></label>
+                        <input asp-for="@Model.Employee.Login" class="form-control" />
+                        <span asp-validation-for="@Model.Employee.Login" class="text-danger"></span>
+                        <span class="text-danger">@ViewData["LoginExists"]</span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="@Model.Employee.Password" class="control-label"></label>
+                        <input asp-for="@Model.Employee.Password" class="form-control" />
+                        <span asp-validation-for="@Model.Employee.Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="@Model.Employee.Role" class="control-label"></label>
+                        <select asp-for="@Model.Employee.Role" class="form-control">
+                            <option value="4">_</option>
+                            <option value="@((int)Roles.Admin)">Администратор</option>
+                            <option value="@((int)Roles.Cashier)">Кассир</option>
+                            <option value="@((int)Roles.PerformanceDirector)">Режиссер</option>
+                            <option value="@((int)Roles.TheatreDirector)">Директор</option>
+                        </select>
+                        <span asp-validation-for="@Model.Employee.Role" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="@Model.Employee.PostID" class="control-label"></label>
+                        <select asp-for="@Model.Employee.PostID" class="form-control" asp-items="ViewBag.PostID"></select>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label asp-for="@Model.Employee.Gender" class="control-label"></label>
+                        <select asp-for="@Model.Employee.Gender" class="form-control">
+                            <option selected>_</option>
+                            <option value="Мужской">Мужской</option>
+                            <option value="Женский">Женский</option>
+                        </select>
+                        <span asp-validation-for="@Model.Employee.Gender" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="@Model.Employee.Age" class="control-label"></label>
+                        <input asp-for="@Model.Employee.Age" class="form-control" />
+                        <span asp-validation-for="@Model.Employee.Age" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="@Model.Employee.Height" class="control-label"></label>
+                        <input asp-for="@Model.Employee.Height" class="form-control" />
+                        <span asp-validation-for="@Model.Employee.Height" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-12">
+                        <label asp-for="@Model.Employee.Rewards" class="control-label"></label>
+                        <textarea asp-for="@Model.Employee.Rewards" class="form-control"></textarea>
+                        <span asp-validation-for="@Model.Employee.Rewards" class="text-danger"></span>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="@Model.Employee.VoiceType" class="control-label"></label>
+                            <select asp-for="@Model.Employee.VoiceType" class="form-control">
+                                <option selected>_</option>
+                                <option value="Бас">Бас</option>
+                                <option value="Баритон">Баритон</option>
+                                <option value="Тенор">Тенор</option>
+                                <option value="Альт">Альт</option>
+                                <option value="Сопрано">Сопрано</option>
+                                <option value="Меццо-сопрано">Меццо-сопрано</option>
+                            </select>
+                            <span asp-validation-for="@Model.Employee.VoiceType" class="text-danger"></span>
+                        </div>
+                        <div>
+                            <input type="hidden" asp-for="@Model.Employee.FullName"/>
+                        </div>
+                        <div class="form-check col-md-3">
+                            <input type="checkbox" asp-for="@Model.Employee.IsOnTour" /> @Html.DisplayNameFor(model => model.Employee.IsOnTour)
+                        </div>
+                        <div class="form-check col-md-3">
+                            <input type="checkbox" asp-for="@Model.Employee.IsStudent" /> @Html.DisplayNameFor(model => model.Employee.IsStudent)
+                        </div>
+                    </div>
+                    
+                    <div class="form-group col-md-12">
+                        <input type="submit" value="Добавить" class="btn btn-primary btn-block" />
+                    </div>
+                </form>
+                @section Scripts {
+                    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+                }
+
+            </div>
+        </div>
+    </div>
+    
+</div>

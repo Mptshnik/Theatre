@@ -1,0 +1,40 @@
+﻿@{
+    Layout = null;
+}
+<link rel="stylesheet" href="~/css/menu.css" runat="server"/>
+<div class='dashboard'>
+    <div class="dashboard-nav">
+        <nav class="dashboard-nav-list">
+            <h1 style="text-align:center; color:white;">Театр</h1>
+            <br />
+            <form>
+                <a asp-controller="Employee" asp-action="Index" class="dashboard-nav-item"
+                   asp-route-role="@((int)Roles.TheatreDirector)">
+                    Сотрудники
+                </a>
+                <a asp-controller="Performance" asp-action="Index"
+                   asp-route-role="@((int)Roles.TheatreDirector)"
+                   class="dashboard-nav-item">
+                    Спектакли
+                </a>
+            </form>
+            <br />
+            <br /> <br />
+            <a asp-action="Index" class="dashboard-nav-item"> Выйти </a>
+        </nav>
+    </div>
+    <div class='dashboard-app'>
+        <div class='dashboard-content'>
+            <div class='container'>
+                <div class='card'>
+                    <div class='card-header'>
+                        <h1>Добро пожаловать</h1>
+                    </div>
+                    <div class='card-body'>
+                        <p>Вы зашли в систему в качестве директора театра</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

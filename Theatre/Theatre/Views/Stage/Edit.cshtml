@@ -1,0 +1,35 @@
+﻿@model Theatre.Models.Stage
+
+@{
+    ViewData["Title"] = "Изменение постановки";
+    Layout = null;
+}
+
+
+<div class="container">
+    <div class="col-md-12">
+        <form asp-action="Edit" asp-route-id="ID" onsubmit="return jQueryAjaxPost(this);">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                <label asp-for="EmployeeID" class="control-label"></label>
+                <select asp-for="EmployeeID" class="form-control" asp-items="ViewBag.EmployeeID"></select>
+                <span asp-validation-for="EmployeeID" class="text-danger"></span>
+                <span class="text-danger">@ViewData["EmployeeInPerformance"]</span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PerformanceID" class="control-label"></label>
+                <select asp-for="PerformanceID" class="form-control" asp-items="ViewBag.PerformanceID"></select>
+                <span asp-validation-for="PerformanceID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Сохранить" class="btn btn-primary btn-block" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

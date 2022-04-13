@@ -1,0 +1,50 @@
+﻿@model Theatre.Models.Membership
+
+@{
+    ViewData["Title"] = "Изменение абонемента";
+    Layout = null;
+}
+
+<div class="container">
+    <div class="col-md-12">
+        <form asp-action="Edit" asp-route-id="ID" onsubmit="return jQueryAjaxPost(this);">
+            >
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Genre" class="control-label"></label>
+                <select class="form-control" asp-for="Genre">
+                    <option selected value="@null">_</option>
+                    <option value="Комедия">Комедия</option>
+                    <option value="Водевиль">Водевиль</option>
+                    <option value="Мелодрама">Мелодрама</option>
+                    <option value="Монодрама">Монодрама</option>
+                    <option value="Мюзикл">Мюзикл</option>
+                    <option value="Пародия">Пародия</option>
+                    <option value="Трагикомедия">Трагикомедия</option>
+                    <option value="Драма">Драма</option>
+                </select>
+                <span asp-validation-for="Genre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AuthorID" class="control-label"></label>
+                <select asp-for="AuthorID" class="form-control" asp-items="ViewBag.AuthorID"> 
+                    <option selected value="@null">_</option>
+                </select>
+                <span asp-validation-for="AuthorID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Сохранить" class="btn btn-primary btn-block" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
